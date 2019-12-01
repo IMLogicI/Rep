@@ -19,7 +19,7 @@ class logs extends core
             $res=mysqli_query($link,$query,MYSQLI_STORE_RESULT);
             for ($i=0;$i<mysqli_num_rows($res);$i++){
                 $ops=mysqli_fetch_array($res,MYSQLI_ASSOC);
-                $opid=$ops['Id'];
+                $opid=$ops['OperationId'];
                 $oplink=mysqli_connect( HOST, USER, PASSWORD, DB );
                 $opquery="Select OperationName FROM operations WHERE Id=$opid";
                 $opres=mysqli_query($oplink,$opquery,MYSQLI_STORE_RESULT);
