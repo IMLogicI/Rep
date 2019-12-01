@@ -12,7 +12,7 @@ class takelot extends core
         $roleres=mysqli_query($rolelink,$rolequery,MYSQLI_STORE_RESULT);
 
         if(mysqli_num_rows($roleres)>0){
-            $lotid=$_POST['lot'];  L
+            $lotid=$_POST['lot'];
             $userid=$_SESSION['UserId'];
             $link=mysqli_connect( HOST, USER, PASSWORD, DB );
             $query="UPDATE loot SET TraderId=$userid, StatusId=2 WHERE Id=$lotid";
