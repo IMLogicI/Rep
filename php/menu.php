@@ -37,6 +37,12 @@ else
     if (mysqli_num_rows($roleres2)>0){
         echo'</td><td><a href="?option=givecash">Выдать деньги</a>';
     }
+    $rolequery2="SELECT FlagId FROM rolesflags WHERE RoleId=$userrole AND FlagId=5";
+    $roleres2=mysqli_query($rolelink,$rolequery2,MYSQLI_STORE_RESULT);
+
+    if (mysqli_num_rows($roleres2)>0){
+        echo'</td><td><a href="?option=logs">Транзакции</a>';
+    }
 
     echo '</td>
             <td>
