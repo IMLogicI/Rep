@@ -18,10 +18,14 @@ class givecashresult extends core
             $cashquery="UPDATE bank SET Sum=Sum-$cash WHERE UserId=$uid";
             $cachres=mysqli_query($cashlink,$cashquery,MYSQLI_STORE_RESULT);
 
+            $userquery="SELECT UserName FROM autoriation WHERE UserId=$uid";
+            $userres=mysqli_query($cashlink,$userquery,MYSQLI_STORE_RESULT);
+            $user=mysqli_fetch_array($userres,MYSQLI_ASSOC);
+            $uname=$user['UserName'];
 
             $datetime=date('Y-m-j H:i:s');
-            $managerId=$_SESSION['UserId'];
-            $logquery="INSERT INTO Logs (OperationId,ById,Sum,AdresantId,DateTime) VALUES (1,$managerId,$cash,$uid,'$datetime')";
+            $managerName=$_SESSION['UserName'];
+            $logquery="INSERT INTO Logs (OperationId,ByName,Sum,AdresantName,DateTime) VALUES (1,'$managerName',$cash,'$uname','$datetime')";
             $logres=mysqli_query($cashlink,$logquery,MYSQLI_STORE_RESULT);
             echo 'Счет обновлен.';
         }

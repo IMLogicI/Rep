@@ -25,16 +25,10 @@ class logs extends core
                 $opres=mysqli_query($oplink,$opquery,MYSQLI_STORE_RESULT);
                 $op=mysqli_fetch_array($opres,MYSQLI_ASSOC);
 
-                $fromid=$ops['ById'];
-                $fromquery= "SELECT UserName FROM autoriation WHERE Id=$fromid";
-                $fromres=mysqli_query($oplink,$fromquery,MYSQLI_STORE_RESULT);
-                $from = mysqli_fetch_array($fromres,MYSQLI_ASSOC);
+                $from=$ops['ByName'];
+                $to=$ops['AdresantName'];
 
-                $toid=$ops['AdresantId'];
-                $toquery= "SELECT UserName FROM autoriation WHERE Id=$toid";
-                $tores=mysqli_query($oplink,$toquery,MYSQLI_STORE_RESULT);
-                $to = mysqli_fetch_array($tores,MYSQLI_ASSOC);
-                echo'<tr><td>'.$op['OperationName'].'</td><td>'.$from['UserName'].'</td><td>'.$to['UserName'].'</td><td>'.$ops['Sum'].'</td><td>'.$ops['DateTime'].'</td></tr>';
+                echo'<tr><td>'.$op['OperationName'].'</td><td>'.$from.'</td><td>'.$to.'</td><td>'.$ops['Sum'].'</td><td>'.$ops['DateTime'].'</td></tr>';
             }
         }
         else{

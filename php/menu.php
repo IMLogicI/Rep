@@ -19,10 +19,6 @@ else
 
     $rolelink=mysqli_connect( HOST, USER, PASSWORD, DB );
     $userrole=$_SESSION['role'];
-    /*$rolequery="SELECT FlagId FROM rolesflags WHERE RoleId=$userrole AND FlagId=4";
-    $roleres=mysqli_query($rolelink,$rolequery,MYSQLI_STORE_RESULT);
-
-    if(mysqli_num_rows($roleres)>0){*/
         echo '</td><td><a href="?option=adduser">Добавить участника</a>';
         $rolequery2="SELECT FlagId FROM rolesflags WHERE RoleId=$userrole AND FlagId=3";
         $roleres2=mysqli_query($rolelink,$rolequery2,MYSQLI_STORE_RESULT);
@@ -30,7 +26,7 @@ else
         if(mysqli_num_rows($roleres2)>0){
             echo '</td><td><a href="?option=rolered">Изменить роль</a>';
         }
-    //}
+
     $rolequery2="SELECT FlagId FROM rolesflags WHERE RoleId=$userrole AND FlagId=2";
     $roleres2=mysqli_query($rolelink,$rolequery2,MYSQLI_STORE_RESULT);
 
