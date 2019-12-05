@@ -24,7 +24,25 @@ class main extends core
             $roleres2=mysqli_query($rolelink,$rolequery2,MYSQLI_STORE_RESULT);
 
             if(mysqli_num_rows($roleres2)>0){
-                echo '<td><form method="post" action="?option=deleteuser">
+
+                echo '<td>';
+                $urlsearch='http://albiondb.net/search/'.$user['UserName'];
+                $text = file_get_contents( $urlsearch );
+                if (preg_match( '/No Players Found/' , $text ))
+                {
+                    echo '<p style="color:red">Такого игрока не существует.</p><br>';
+                }
+                else {
+                    $urluser='http://albiondb.net/player/'.$user['UserName'];
+                    $text2 = file_get_contents( $urluser );
+                    preg_match_all( '#<div class="well">(.+?)</div>#su' , $text2, $res );
+                    $r=$res[0][0];
+
+                    if (!preg_match( '/War Gods/' , $r))
+                    {
+                        echo '<p style="color: red;">Игрок не состоит в гильдии.</p><br>';
+                    }
+                echo '<form method="post" action="?option=deleteuser">
                         <input type="text" value="' . $cash['UserId'] . '" name="id" hidden="hidden">
                         <input type="submit" name="go" value="X"> 
                     </form></td>';
