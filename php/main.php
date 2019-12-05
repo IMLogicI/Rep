@@ -35,8 +35,8 @@ class main extends core
                 else {
                     $urluser = 'http://albiondb.net/player/' . $user['UserName'];
                     $text2 = file_get_contents($urluser);
-                    preg_match_all('#<div class="well">(.+?)</div>#su', $text2, $res);
-                    $r = $res[0][0];
+                    preg_match_all('#<div class="well">(.+?)</div>#su', $text2, $reslt);
+                    $r = $reslt[0][0];
 
                     if (!preg_match('/War Gods/', $r)) {
                         echo '<p style="color: red;">Игрок не состоит в гильдии.</p><br>';
