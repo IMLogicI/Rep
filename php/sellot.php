@@ -26,8 +26,7 @@ class sellot extends core
             }
             else{
                 $guildlink=mysqli_connect(HOST,USER,PASSWORD,DB);
-                $guildsum=floor($cost*0.05);
-                $guildquery="UPDATE wg SET AllSum=AllSum+$cost, GuildSum=GuildSum+$guildsum";
+                $guildquery="UPDATE wg SET AllSum=AllSum+$cost";
                 $guildres=mysqli_query($guildlink,$guildquery,MYSQLI_STORE_RESULT);
 
                 $lotlink=mysqli_connect(HOST,USER,PASSWORD,DB);

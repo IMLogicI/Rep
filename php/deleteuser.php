@@ -17,6 +17,35 @@ class deleteuser extends core
             $lootquery = "DELETE FROM userloot WHERE UserId=$uid";
             $lootres=mysqli_query($lootlink,$lootquery,MYSQLI_STORE_RESULT);
 
+            $rolequery="DELETE FROM userroles WHERE UserId=$uid";
+            $rolequery=mysqli_query($lootlink,$rolequery,MYSQLI_STORE_RESULT);
+
+            $managerName = $_SESSION['UserName'];
+
+            $cashquery = "SELECT * FROM bank WHERE UserId=$uid";
+            $cashres=mysqli_query($lootlink,$cashquery,MYSQLI_STORE_RESULT);
+            $cash = mysqli_fetch_array($cashres,MYSQLI_ASSOC);
+            $usercash = $cash['Sum'];
+            $datetime=date('Y-m-j H:i:s');
+
+            $userquery="SELECT UserName FROM autoriation WHERE Id=$uid";
+            $userres=mysqli_query($lootlink,$userquery,MYSQLI_STORE_RESULT);
+            $user=mysqli_fetch_array($userres,MYSQLI_ASSOC);
+            $uname=$user['UserName'];
+
+            $logquery="INSERT INTO Logs (OperationId,ByName,Sum,AdresantName,DateTime) VALUES (3,'$managerName',$usercash,'$uname','$datetime')";
+            $logres=mysqli_query($lootlink,$logquery,MYSQLI_STORE_RESULT);
+
+            $cashquery="UPDATE wg SET GuildSum=GuildSum+$usercash";
+            $cashres=mysqli_query($lootlink,$cashquery,MYSQLI_STORE_RESULT);
+
+            $cashquery="DELETE FROM bank WHERE UserId=$uid";
+            $cashres=mysqli_query($lootlink,$cashquery,MYSQLI_STORE_RESULT);
+
+            $authquery="DELETE FROM autoriation WHERE Id=$uid";
+            $authres=mysqli_query($lootlink,$authquery,MYSQLI_STORE_RESULT);
+
+            echo 'Пользователь удален.';
         }
         else{
             echo 'Вы не можете просматривать эту страницу';
