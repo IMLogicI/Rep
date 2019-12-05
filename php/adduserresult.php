@@ -17,29 +17,37 @@ class adduserresult extends core
 
             $urlsearch='http://albiondb.net/search/'.$uname;
             $text = file_get_contents( $urlsearch );
-            if (preg_match( '/<h2>Players</h2>No Players Found<br>/' , $text ))
+            if (preg_match( '/No Players Found/' , $text ))
             {
                 echo 'Такого игрока не существует.';
             }
+            else {
+                $urluser='http://albiondb.net/player/'.$uname;
+                $text = file_get_contents( $urluser );
+                if (!preg_match( '/Guild Name: <a href="\/guild\/War+Gods">War Gods<\/a>/' , $text ))
+                {
+                    echo 'Игрок не состоит в гильдии.';
+                }
+                else {
+                    $checklink = mysqli_connect(HOST, USER, PASSWORD, DB);
+                    $checkquery = "SELECT Id FROM autoriation WHERE UserName='$uname'";
+                    $checkres = mysqli_query($checklink, $checkquery, MYSQLI_STORE_RESULT);
+                    if (mysqli_num_rows($checkres) > 0) {
+                        echo 'Этот пользователь уже существует.';
+                    } else {
+                        $userlink = mysqli_connect(HOST, USER, PASSWORD, DB);
+                        $userquery = "INSERT INTO autoriation (UserName,Password) VALUES('$uname','$uname')";
+                        $userres = mysqli_query($userlink, $userquery, MYSQLI_STORE_RESULT);
+                        $id = mysqli_insert_id($userlink);
 
-            $checklink=mysqli_connect( HOST, USER, PASSWORD, DB );
-            $checkquery="SELECT Id FROM autoriation WHERE UserName='$uname'";
-            $checkres=mysqli_query($checklink,$checkquery,MYSQLI_STORE_RESULT);
-            if (mysqli_num_rows($checkres)>0){
-                echo 'Этот пользователь уже существует.';
-            }
-            else{
-                $userlink=mysqli_connect( HOST, USER, PASSWORD, DB );
-                $userquery="INSERT INTO autoriation (UserName,Password) VALUES('$uname','$uname')";
-                $userres=mysqli_query($userlink,$userquery,MYSQLI_STORE_RESULT);
-                $id=mysqli_insert_id($userlink);
+                        $userquery = "INSERT INTO bank (UserId) VALUES ($id)";
+                        $userres = mysqli_query($userlink, $userquery, MYSQLI_STORE_RESULT);
 
-                $userquery="INSERT INTO bank (UserId) VALUES ($id)";
-                $userres=mysqli_query($userlink,$userquery,MYSQLI_STORE_RESULT);
-
-                $userquery="INSERT INTO userroles (UserId,RoleId) VALUES ($id,1)";
-                $userres=mysqli_query($userlink,$userquery,MYSQLI_STORE_RESULT);
-                echo 'Пользователь успешно добавлен.';
+                        $userquery = "INSERT INTO userroles (UserId,RoleId) VALUES ($id,1)";
+                        $userres = mysqli_query($userlink, $userquery, MYSQLI_STORE_RESULT);
+                        echo 'Пользователь успешно добавлен.';
+                    }
+                }
             }
         }
         else{
