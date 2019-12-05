@@ -21,15 +21,29 @@ class requests extends core
                 $cantrade = true;
             }
 
-            echo '<b>Созданные лоты</b><br><br><table><tr><td>N</td><td>Место хранения лота</td><td>Участники</td>';
+            echo '<b>Созданные лоты</b><br><br><table><tr><td>N</td><td>Место хранения лота</td><td>Участники</td><td>Создатель</td>';
 
             if ($cantrade) {
                 echo '<td>Взять лот</td>';
             }
+
+            $redlink = mysqli_connect(HOST, USER, PASSWORD, DB);
+            $redquery = "SELECT FlagId FROM rolesflags WHERE RoleId=$userrole AND FlagId=7";
+            $redres = mysqli_query($redlink, $redquery, MYSQLI_STORE_RESULT);
+            $canred = false;
+
+            if (mysqli_num_rows($redres) > 0) {
+                $canred = true;
+            }
+
+            if ($canred){
+                echo '<td>Удалить</td>';
+            }
+
             echo '</tr>';
 
             $link = mysqli_connect(HOST, USER, PASSWORD, DB);
-            $query = "SELECT Id,ChestId FROM loot WHERE StatusId=1";
+            $query = "SELECT Id,CreatedById,ChestId FROM loot WHERE StatusId=1";
             $result = mysqli_query($link, $query, MYSQLI_STORE_RESULT);
 
             for ($i = 0; $i < mysqli_num_rows($result); $i++) {
@@ -57,6 +71,13 @@ class requests extends core
                     echo $username['UserName'] . ' ';
                 }
 
+                $creatorid=$loot['CreatedById'];
+                $linkcreator = mysqli_connect(HOST, USER, PASSWORD, DB);
+                $querycreator = "SELECT UserName FROM autoriation WHERE Id=$creatorid";
+                $rescreator = mysqli_query($linkcreator, $querycreator, MYSQLI_STORE_RESULT);
+                $creator=mysqli_fetch_array($rescreator,MYSQLI_ASSOC);
+                echo '</td>'.$creator['UserName'].'<td>';
+
                 if ($cantrade) {
                     echo '</td><td><form method="post" action="?option=takelot">
                         <input type="text" value="' . $id . '" name="lot" hidden="hidden">
@@ -64,20 +85,32 @@ class requests extends core
                     </form>';
                 }
 
+                if ($canred) {
+                    echo '<td><form method="post" action="?option=deletrequest">
+                        <input type="text" value="' . $id . '" name="id" hidden="hidden">
+                        <input type="submit" name="go" value="X"> 
+                    </form></td>';
+                }
+
                 echo '</td></tr>';
             }
 
             echo '</table>';
 
-            echo '<b>На продаже</b><br><br><table><tr><td>N</td><td>Место хранения лота</td><td>Участники</td><td>Трейдер</td>';
+            echo '<b>На продаже</b><br><br><table><tr><td>N</td><td>Место хранения лота</td><td>Участники</td><td>Создатель</td><td>Трейдер</td>';
 
             if ($cantrade) {
                 echo '<td>Сдать лот</td>';
             }
+
+            if ($canred){
+                echo '<td>Удалить</td>';
+            }
+
             echo '</tr>';
 
             $link1 = mysqli_connect(HOST, USER, PASSWORD, DB);
-            $query1 = "SELECT Id,ChestId,TraderId FROM loot WHERE StatusId=2";
+            $query1 = "SELECT Id,CreatedById,ChestId,TraderId FROM loot WHERE StatusId=2";
             $result1 = mysqli_query($link1, $query1, MYSQLI_STORE_RESULT);
 
             for ($i = 0; $i < mysqli_num_rows($result1); $i++) {
@@ -105,6 +138,13 @@ class requests extends core
                     echo $username['UserName'] . ' ';
                 }
 
+                $creatorid=$loot['CreatedById'];
+                $linkcreator = mysqli_connect(HOST, USER, PASSWORD, DB);
+                $querycreator = "SELECT UserName FROM autoriation WHERE Id=$creatorid";
+                $rescreator = mysqli_query($linkcreator, $querycreator, MYSQLI_STORE_RESULT);
+                $creator=mysqli_fetch_array($rescreator,MYSQLI_ASSOC);
+                echo '</td>'.$creator['UserName'].'<td>';
+
                 $trader = $loot['TraderId'];
                 echo '</td><td>';
                 $link5 = mysqli_connect(HOST, USER, PASSWORD, DB);
@@ -126,15 +166,22 @@ class requests extends core
                     }
                 }
 
+                if ($canred) {
+                    echo '<td><form method="post" action="?option=deletrequest">
+                        <input type="text" value="' . $id . '" name="id" hidden="hidden">
+                        <input type="submit" name="go" value="X"> 
+                    </form></td>';
+                }
+
                 echo '</td></tr>';
             }
 
             echo '</table>';
 
-            echo '<b>Продано</b><br><br><table><tr><td>N</td><td>Место хранения лота</td><td>Участники</td><td>Трейдер</td><td>Сумма</td></tr>';
+            echo '<b>Продано</b><br><br><table><tr><td>N</td><td>Место хранения лота</td><td>Участники</td><td>Создатель</td><td>Трейдер</td><td>Сумма</td></tr>';
 
             $link6 = mysqli_connect(HOST, USER, PASSWORD, DB);
-            $query6 = "SELECT Id,ChestId,TraderId,Cost FROM loot WHERE StatusId=3";
+            $query6 = "SELECT Id,CreatedById,ChestId,TraderId,Cost FROM loot WHERE StatusId=3";
             $result6 = mysqli_query($link6, $query6, MYSQLI_STORE_RESULT);
 
             for ($i = 0; $i < mysqli_num_rows($result6); $i++) {
@@ -161,6 +208,13 @@ class requests extends core
                     $username = mysqli_fetch_array($res4, MYSQLI_ASSOC);
                     echo $username['UserName'] . ' ';
                 }
+
+                $creatorid=$loot['CreatedById'];
+                $linkcreator = mysqli_connect(HOST, USER, PASSWORD, DB);
+                $querycreator = "SELECT UserName FROM autoriation WHERE Id=$creatorid";
+                $rescreator = mysqli_query($linkcreator, $querycreator, MYSQLI_STORE_RESULT);
+                $creator=mysqli_fetch_array($rescreator,MYSQLI_ASSOC);
+                echo '</td>'.$creator['UserName'].'<td>';
 
                 $trader = $loot['TraderId'];
                 echo '</td><td>';
