@@ -14,6 +14,14 @@ class adduserresult extends core
 
         if (mysqli_num_rows($roleres)>0){
             $uname=trim(strip_tags($_POST['uname']));
+
+            $urlsearch='http://albiondb.net/search/'.$uname;
+            $text = file_get_contents( $urlsearch );
+            if (preg_match( '/<h2>Players</h2>No Players Found<br>/' , $text ))
+            {
+                echo 'Такого игрока не существует.';
+            }
+
             $checklink=mysqli_connect( HOST, USER, PASSWORD, DB );
             $checkquery="SELECT Id FROM autoriation WHERE UserName='$uname'";
             $checkres=mysqli_query($checklink,$checkquery,MYSQLI_STORE_RESULT);
