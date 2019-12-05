@@ -76,7 +76,7 @@ class requests extends core
                 $querycreator = "SELECT UserName FROM autoriation WHERE Id=$creatorid";
                 $rescreator = mysqli_query($linkcreator, $querycreator, MYSQLI_STORE_RESULT);
                 $creator=mysqli_fetch_array($rescreator,MYSQLI_ASSOC);
-                echo '</td>'.$creator['UserName'].'<td>';
+                echo '</td><td>'.$creator['UserName'];
 
                 if ($cantrade) {
                     echo '</td><td><form method="post" action="?option=takelot">
@@ -143,7 +143,7 @@ class requests extends core
                 $querycreator = "SELECT UserName FROM autoriation WHERE Id=$creatorid";
                 $rescreator = mysqli_query($linkcreator, $querycreator, MYSQLI_STORE_RESULT);
                 $creator=mysqli_fetch_array($rescreator,MYSQLI_ASSOC);
-                echo '</td>'.$creator['UserName'].'<td>';
+                echo '</td><td>'.$creator['UserName'];
 
                 $trader = $loot['TraderId'];
                 echo '</td><td>';
@@ -214,7 +214,7 @@ class requests extends core
                 $querycreator = "SELECT UserName FROM autoriation WHERE Id=$creatorid";
                 $rescreator = mysqli_query($linkcreator, $querycreator, MYSQLI_STORE_RESULT);
                 $creator=mysqli_fetch_array($rescreator,MYSQLI_ASSOC);
-                echo '</td>'.$creator['UserName'].'<td>';
+                echo '</td><td>'.$creator['UserName'];
 
                 $trader = $loot['TraderId'];
                 echo '</td><td>';
