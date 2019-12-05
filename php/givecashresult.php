@@ -18,7 +18,7 @@ class givecashresult extends core
             $cashquery="UPDATE bank SET Sum=Sum-$cash WHERE UserId=$uid";
             $cachres=mysqli_query($cashlink,$cashquery,MYSQLI_STORE_RESULT);
 
-            $userquery="SELECT UserName FROM autoriation WHERE UserId=$uid";
+            $userquery="SELECT UserName FROM autoriation WHERE Id=$uid";
             $userres=mysqli_query($cashlink,$userquery,MYSQLI_STORE_RESULT);
             $user=mysqli_fetch_array($userres,MYSQLI_ASSOC);
             $uname=$user['UserName'];
